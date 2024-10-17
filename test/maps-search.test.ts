@@ -35,6 +35,12 @@ describe('Tomtom Places E2E Tests', () => {
         it('handles error', async () => {
             expect(getPlaceAutocomplete(process.env.TOMTOM_API_KEY, '')).rejects.toThrow()
         })
+        it('returns only Australian addresses', async () => {
+            const res = await getPlaceAutocomplete(process.env.TOMTOM_API_KEY, 'Charlotte Street');
+            res.forEach(address => {
+                expect(address.countryCode).toBe('AU');
+            });
+        });
     })
 
 })

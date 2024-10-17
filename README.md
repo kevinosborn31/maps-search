@@ -17,7 +17,6 @@ Resources:
 ==========
 
 Place Search Documentation: https://developer.tomtom.com/search-api/documentation/search-service/search-service
-API Key: Oyb0npJAVdRwDauqpFez7zKCy2euUYql
 
 Install:
 ========

@@ -1,23 +1,36 @@
-import axios from 'axios';
-import { TomTomResult } from './interfaces/TomTomResult';
+import axios from "axios";
+import { TomTomResult } from "./interfaces/TomTomResult";
 
-// https://developer.tomtom.com/search-api/documentation/search-service/fuzzy-search
 export async function getPlaceAutocomplete(key: string, address: string) {
-    const autocomplete = await axios.get(`https://api.tomtom.com/search/2/search/${address}.json`, {
-        params: {
-            key,
-            limit: 100,
-        }
-    });
+  if (!address) {
+    throw new Error("Address is required");
+  }
 
-    return autocomplete.data.results
-        .filter((result: { countryCode: string; }) => result.countryCode === 'AU')
-        .map((result: TomTomResult) => ({
-            placeId: result.id,
-            streetNumber: result.address.streetNumber,
-            countryCode: result.address.countryCode,
-            country: result.address.country,
-            freeformAddress: result.address.freeformAddress,
-            municipality: result.address.municipality,
-        }));
+  try {
+    const encodedAddress = encodeURIComponent(address);
+
+    const response = await axios.get(
+      `https://api.tomtom.com/search/2/search/${encodedAddress}.json`,
+      {
+        params: {
+          key,
+          limit: 100,
+          countrySet: "AU",
+          maxFuzzyLevel: 2,
+        },
+      }
+    );
+
+    return response.data.results.map((result: TomTomResult) => ({
+      placeId: result.id,
+      streetNumber: result.address.streetNumber,
+      countryCode: result.address.countryCode,
+      country: result.address.country,
+      freeformAddress: result.address.freeformAddress,
+      municipality: result.address.municipality,
+    }));
+  } catch (error) {
+    console.error("Error fetching place autocomplete:", error);
+    throw error;
+  }
 }

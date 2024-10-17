@@ -11,7 +11,7 @@ export async function getPlaceAutocomplete(key: string, address: string) {
     });
 
     return autocomplete.data.results
-        .filter((result: { countryCode: string; }) => result.countryCode === 'AU') // Filter for Australian addresses
+        .filter((result: { countryCode: string; }) => result.countryCode === 'AU')
         .map((result: TomTomResult) => ({
             placeId: result.id,
             streetNumber: result.address.streetNumber,

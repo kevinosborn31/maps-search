@@ -16,18 +16,17 @@ export async function getPlaceAutocomplete(key: string, address: string) {
           key,
           limit: 100,
           countrySet: "AU",
-          maxFuzzyLevel: 2,
         },
       }
     );
 
     return response.data.results.map((result: TomTomResult) => ({
-      placeId: result.id,
-      streetNumber: result.address.streetNumber,
-      countryCode: result.address.countryCode,
-      country: result.address.country,
-      freeformAddress: result.address.freeformAddress,
-      municipality: result.address.municipality,
+      placeId: result.id || '',
+      streetNumber: result.address.streetNumber || '',
+      countryCode: result.address.countryCode || '',
+      country: result.address.country || '',
+      freeformAddress: result.address.freeformAddress || '',
+      municipality: result.address.municipality || '',
     }));
   } catch (error) {
     console.error("Error fetching place autocomplete:", error);

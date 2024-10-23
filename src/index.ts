@@ -13,11 +13,11 @@ export async function getAutoCompleteDetails(
   const autocompleteResults = await getPlaceAutocomplete(apiKey, address);
 
   return autocompleteResults.map((result: AddressResult) => ({
-    placeId: result.placeId,
-    streetNumber: result.streetNumber,
-    countryCode: result.countryCode,
-    country: result.country,
-    freeformAddress: result.freeformAddress,
-    municipality: result.municipality,
+    placeId: result.placeId || '',
+    streetNumber: result.streetNumber || '',
+    countryCode: result.countryCode || '',
+    country: result.country || '',
+    freeformAddress: result.freeformAddress || '',
+    municipality: result.municipality || '',
   }));
 }
